@@ -5,13 +5,13 @@ from board import Board
 
 def test_move():
     board = Board()
-    assert board.state[0][0] == 0
+    assert board._state[0][0] == 0
 
     board.move(player=1, position=(1, 1))
-    assert board.state[1][1] == 1
+    assert board._state[1][1] == 1
 
     board.move(player=-1, position=(0, 0))
-    assert board.state[0][0] == -1
+    assert board._state[0][0] == -1
 
 
 def test_illegal_move_outside_board():
@@ -45,3 +45,29 @@ def test_illegal_move_illegal_state():
     board = Board()
     with pytest.raises(AssertionError):
         board.move(0, (1, 1))
+
+
+def test_to_string_empty_board():
+    board = Board()
+    result = board.__str__()
+    assert result == '''
+-------------
+|   |   |   |
+|   |   |   |
+|   |   |   |
+-------------
+'''
+
+
+def test_to_string_moves():
+    board = Board()
+    board.move(1, (1, 1))
+    board.move(-1, (0, 0))
+    result = board.__str__()
+    assert result == '''
+-------------
+| O |   |   |
+|   | X |   |
+|   |   |   |
+-------------
+'''
