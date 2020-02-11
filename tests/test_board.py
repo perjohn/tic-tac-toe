@@ -5,46 +5,49 @@ from board import Board
 
 def test_move():
     board = Board()
-    assert board._state[0][0] == 0
+    assert board.state[0][0] == 0
 
     board.move(player=1, position=(1, 1))
-    assert board._state[1][1] == 1
+    assert board.state[1][1] == 1
 
     board.move(player=-1, position=(0, 0))
-    assert board._state[0][0] == -1
+    assert board.state[0][0] == -1
 
 
-def test_illegal_move_outside_board():
+def test_is_valid_move():
     board = Board()
-    with pytest.raises(AssertionError):
-        board.move(1, (3, 3))
 
-    with pytest.raises(AssertionError):
-        board.move(1, (-1, 2))
+    assert board.is_valid_move(1, (1, 1))
+    board.move(player=1, position=(1, 1))
+
+    assert board.is_valid_move(-1, (0, 0))
 
 
-def test_illegal_move_unknown_player():
+def test_is_valid_move_outside_board():
     board = Board()
-    with pytest.raises(AssertionError):
-        board.move(2, (1, 1))
+    assert not board.is_valid_move(1, (3, 3))
+    assert not board.is_valid_move(1, (0, 3))
+    assert not board.is_valid_move(1, (-1, 2))
 
 
-def test_illegal_move_cell_occupied():
+def test_is_valid_move_unknown_player():
+    board = Board()
+    assert not board.is_valid_move(2, (1, 1))
+
+
+def test_is_valid_cell_occupied():
     board = Board()
     board.move(1, (1, 1))
-    with pytest.raises(AssertionError):
-        board.move(0, (1, 1))
+    assert not board.is_valid_move(1, (1, 1))
 
 
-def test_illegal_move_illegal_state():
+def test_is_valid_illegal_state():
     board = Board()
     board.move(1, (1, 1))
-    with pytest.raises(AssertionError):
-        board.move(1, (0, 1))
+    assert not board.is_valid_move(1, (0, 1))
 
     board = Board()
-    with pytest.raises(AssertionError):
-        board.move(0, (1, 1))
+    assert not board.is_valid_move(0, (1, 1))
 
 
 def test_check_win_empty():
@@ -87,6 +90,31 @@ def test_check_diagonal():
     board.move(1, (2, 2))
     result = board.check_win()
     assert result
+
+
+def test_check_diagonal_other():
+    board = Board()
+    board.move(1, (1, 1))
+    board.move(-1, (0, 1))
+    board.move(1, (0, 2))
+    result = board.check_win()
+    assert not result
+    board.move(-1, (0, 0))
+    board.move(1, (2, 0))
+    result = board.check_win()
+    assert result
+
+
+def test_equality():
+    board1 = Board()
+    board2 = Board()
+    assert board1 == board2
+
+    board1.move(1, (1, 1))
+    assert board1 != board2
+
+    board2.move(1, (1, 1))
+    assert board1 == board2
 
 
 def test_to_string_empty_board():

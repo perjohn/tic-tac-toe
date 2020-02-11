@@ -1,6 +1,6 @@
 import click
 
-from agent import Agent
+from game import Game
 
 
 @click.group()
@@ -10,13 +10,14 @@ def cli():
 
 @cli.command()
 def one_player():
-    pass
+    game = Game()
+    game.one_player()
 
 
 @cli.command()
 def two_player():
-    agent = Agent()
-    agent.two_player()
+    game = Game()
+    game.two_player()
 
 
 if __name__ == '__main__':

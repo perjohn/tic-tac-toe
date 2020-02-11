@@ -1,21 +1,20 @@
-import click
+import numpy as np
 
 from board import Board
 
 
 class Agent:
-    def __init__(self):
-        self.board = Board()
+    def __init__(self, board: Board):
+        self.board = board
 
-    def two_player(self):
-        win = False
-        player = 1
-        while not win:
-            value = click.prompt(f'Move for player {"X" if player == 1 else "O"}', type=str)
-            move = (int(value.replace(' ', '').split(',')[0]), int(value.replace(' ', '').split(',')[1]))
-            self.board.move(player=player, position=move)
-            print(self.board)
-            win = self.board.check_win()
-            if win:
-                print(f'Player {"X" if player == 1 else "O"} has won')
-            player = -player
+    def choose_move(self, exploration_rate: float):
+        if np.random.uniform(0, 1) <= exploration_rate:
+            pass
+
+    def get_possible_moves(self, player: int) -> list:
+        result = []
+        for row in range(3):
+            for column in range(3):
+                if self.board.is_valid_move(player, (row, column)):
+                    result.append((row, column))
+        return result
