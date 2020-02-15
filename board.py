@@ -1,5 +1,8 @@
 import numpy as np
 
+PLAYER_X = 1
+PLAYER_O = -1
+
 
 class Board:
 
@@ -14,7 +17,7 @@ class Board:
         self.state[position[0]][position[1]] = player
 
     def is_valid_move(self, player, position: tuple) -> bool:
-        if player != 1 and player != -1:
+        if player != PLAYER_X and player != PLAYER_O:
             return False
         if position[0] < 0 or position[0] > 2:
             return False
@@ -53,6 +56,14 @@ class Board:
                 result += self.state[row][col]
         return result
 
+    def get_possible_moves(self, player: int) -> list:
+        result = []
+        for row in range(3):
+            for column in range(3):
+                if self.is_valid_move(player, (row, column)):
+                    result.append((row, column))
+        return result
+
     def __eq__(self, other):
         if isinstance(other, self.__class__):
             return np.array_equal(self.state, other.state)
@@ -61,6 +72,11 @@ class Board:
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
+    def __hash__(self):
+        return hash((self.state[0, 0], self.state[0, 1], self.state[0, 2],
+                     self.state[1, 0], self.state[1, 1], self.state[1, 2],
+                     self.state[2, 0], self.state[2, 1], self.state[2, 2]))
 
     def __str__(self):
         def format_cell(cell):

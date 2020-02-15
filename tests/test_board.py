@@ -1,4 +1,4 @@
-import pytest
+import numpy as np
 
 from board import Board
 
@@ -103,6 +103,19 @@ def test_check_diagonal_other():
     board.move(1, (2, 0))
     result = board.check_win()
     assert result
+
+
+def test_get_possible_moves_empty_board():
+    board = Board()
+    result = board.get_possible_moves(1)
+    assert len(result) == 9
+
+
+def test_get_possible_moves_one_space_left():
+    board = Board(np.array([[1, -1, 1], [-1, 1, -1], [1, -1, 0]]))
+    result = board.get_possible_moves(1)
+    assert len(result) == 1
+    assert result[0] == (2, 2)
 
 
 def test_equality():
