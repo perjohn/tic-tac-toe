@@ -6,9 +6,9 @@ PLAYER_O = -1
 
 class Board:
 
-    def __init__(self, state=None):
+    def __init__(self, state: np.ndarray = None):
         if state is not None:
-            self.state = state
+            self.state = state.copy()
         else:
             self.state = np.zeros((3, 3))
 

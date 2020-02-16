@@ -8,20 +8,32 @@ LOSE_REWARD = -1
 class Trainer:
     def __init__(self, exploration_rate: float):
         self.exploration_rate = exploration_rate
+        self.board = Board()
+        self.agent_x = Agent(self.board, PLAYER_X, self.exploration_rate)
+        self.agent_o = Agent(self.board, PLAYER_O, self.exploration_rate)
 
     def train(self, epochs: int):
         for epoch in range(epochs):
+            print(f'Epoch {epoch}')
             done = False
             while not done:
-                board = Board()
-                agent_x = Agent(board, PLAYER_X, self.exploration_rate)
-                agent_o = Agent(board, PLAYER_O, self.exploration_rate)
-                move_x = agent_x.choose_move()
-                board.move(PLAYER_X, move_x)
-                done = board.check_win()
+                move_x = self.agent_x.choose_move()
+                self.board.move(PLAYER_X, move_x)
+                done = self.board.check_win()
                 if done:
-                    agent_x.update_q_values(WIN_REWARD)
+                    self.agent_x.update_q_values(WIN_REWARD)
+                    self.agent_o.update_q_values(LOSE_REWARD)
+                    continue
 
-                move_o = agent_o.choose_move()
-                board.move(PLAYER_O, move_o)
-                done = board.check_win()
+                move_o = self.agent_o.choose_move()
+                self.board.move(PLAYER_O, move_o)
+                done = self.board.check_win()
+                if done:
+                    self.agent_x.update_q_values(LOSE_REWARD)
+                    self.agent_o.update_q_values(WIN_REWARD)
+                    continue
+
+    def reset(self):
+        self.board = Board()
+        self.agent_x.reset(self.board)
+        self.agent_o.reset(self.board)

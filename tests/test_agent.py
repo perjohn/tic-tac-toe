@@ -16,9 +16,10 @@ def test_choose_move(mock_choice, mock_uniform):
     assert len(agent.moves) == 1
     assert agent.moves[0] == (Board(), (1, 1))
 
-
-def test_initial_q_values():
-    agent = Agent(Board(), PLAYER_X)
-    result = agent.q_values
-    assert len(result[Board()]) == 9
-    assert len(result[Board(np.array([[-1, 0, 0], [0, 1, 0], [0, 0, 0]]))]) == 7
+# def test_initial_q_values():
+#     agent = Agent(Board(), PLAYER_X)
+#     result = agent.q_values
+#     assert len(result[Board()]) == 9
+#     move_q_values = result[Board()]
+#     assert move_q_values[(1, 1)] == 0
+#     assert len(result[Board(np.array([[-1, 0, 0], [0, 1, 0], [0, 0, 0]]))]) == 7
