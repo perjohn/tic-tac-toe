@@ -22,6 +22,8 @@ class Agent:
             move = random.choice(self.board.get_possible_moves(self.player))
         else:
             move = self._get_move_with_highest_value()
+            if move is None:
+                move = random.choice(self.board.get_possible_moves(self.player))
         self.moves.append((Board(state=self.board.state), move))
         return move
 

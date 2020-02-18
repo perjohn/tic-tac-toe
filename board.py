@@ -49,6 +49,11 @@ class Board:
         return np.trace(self.state) == 3 or np.trace(self.state) == -3 \
                or np.trace(np.fliplr(self.state)) == 3 or np.trace(np.fliplr(self.state)) == -3
 
+    def check_draw(self) -> bool:
+        if self.check_win():
+            return False
+        return np.sum(np.absolute(self.state)) == 9
+
     def _count_plays_difference(self):
         result = 0
         for row in range(0, 3):

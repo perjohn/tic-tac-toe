@@ -24,8 +24,9 @@ def two_player():
 @cli.command()
 @click.option('--epochs', default=10, help='Number of training epochs.', type=int)
 @click.option('--exploration-rate', default=0.3, help='Exploration rate.', type=float)
-def train(epochs, exploration_rate):
-    trainer = Trainer(exploration_rate=exploration_rate)
+@click.option('--save-dir', help='Directory to save results.', type=click.Path(exists=True))
+def train(epochs, exploration_rate, save_dir):
+    trainer = Trainer(exploration_rate=exploration_rate, save_dir=save_dir)
     trainer.train(epochs=epochs)
 
 

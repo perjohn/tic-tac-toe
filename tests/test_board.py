@@ -79,7 +79,7 @@ def test_check_win_row():
     assert result
 
 
-def test_check_diagonal():
+def test_check_win_diagonal():
     board = Board()
     board.move(1, (1, 1))
     board.move(-1, (0, 1))
@@ -92,7 +92,7 @@ def test_check_diagonal():
     assert result
 
 
-def test_check_diagonal_other():
+def test_check_win_diagonal_other():
     board = Board()
     board.move(1, (1, 1))
     board.move(-1, (0, 1))
@@ -103,6 +103,16 @@ def test_check_diagonal_other():
     board.move(1, (2, 0))
     result = board.check_win()
     assert result
+
+
+def test_check_draw():
+    board = Board(np.array([[-1, 1, -1], [1, 1, -1], [1, -1, 1]]))
+    result = board.check_draw()
+    assert result
+
+    board = Board(np.array([[0, 1, -1], [1, 1, -1], [1, -1, 1]]))
+    result = board.check_draw()
+    assert not result
 
 
 def test_get_possible_moves_empty_board():
