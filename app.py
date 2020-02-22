@@ -17,7 +17,7 @@ def cli():
 def one_player():
     board = Board()
     agent = Agent(board, PLAYER_X, exploration_rate=0)
-    agent.q_values = pickle.load(open("model/tic-tac-toe-agent-x-epochs-2000.pickle", "rb"))
+    agent.q_values = pickle.load(open("model/tic-tac-toe-agent-x-epochs-5000.pickle", "rb"))
     game = Game()
     game.one_player(board, agent)
 

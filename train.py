@@ -20,7 +20,8 @@ class Trainer:
 
     def train(self, epochs: int):
         for epoch in range(epochs):
-            print(f'Epoch {epoch}')
+            if epoch % 100 == 0:
+                print(f'Epoch {epoch}')
             done = False
             while not done:
                 move_x = self.agent_x.choose_move()
