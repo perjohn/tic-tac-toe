@@ -1,5 +1,9 @@
+import pickle
+
 import click
 
+from agent import Agent
+from board import Board, PLAYER_X
 from game import Game
 from train import Trainer
 
@@ -11,8 +15,11 @@ def cli():
 
 @cli.command()
 def one_player():
+    board = Board()
+    agent = Agent(board, PLAYER_X, exploration_rate=0)
+    agent.q_values = pickle.load(open("model/tic-tac-toe-agent-x-epochs-2000.pickle", "rb"))
     game = Game()
-    game.one_player()
+    game.one_player(board, agent)
 
 
 @cli.command()
